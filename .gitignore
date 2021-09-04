@@ -1,4 +1,3 @@
 .DS_Store
 SECRETS.py
 __pycache__
-migrations
