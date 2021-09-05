@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from mySite import views as mySite_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', mySite_views.index),
+    path('channels/', mySite_views.index),
 ]
