@@ -5,6 +5,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <link href="{% static 'styles.css' %}" rel=”stylesheet”>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     </head>
     <body>
@@ -20,22 +21,28 @@
 
         <template id="video-card-template">
             <div>
-                <v-row>
-                    <v-col cols="4">
-                        <v-card height="300px" elevation="2">
-                            <v-img height="200px" src="https://i.ytimg.com/vi/ZzHVOjk3sjY/maxresdefault.jpg"></v-img>
-                            <v-card-title>[[ title ]]</v-card-title>
-                            <v-card-subtitle></v-card-subtitle>
-                        </v-card>
-                    </v-col>
-                </v-row>
+                <v-card class="rounded-xl" color="light-purple" height="300px" elevation="2" :to="'video/' + id">
+                    <v-img height="200px" :src="thumbnail"></v-img>
+                    <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
+                    <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
+                </v-card>
             </div>
         </template>
 
         <template id="home-template">
-            <div>
-                <h1>Home Page</h1>
-                <video-card></video-card>
+            <div class="mt-5">
+                <v-row>
+                    {% for video in videos %}
+                    <v-col cols="4">
+                        <video-card
+                            id="{{ video.id|safe }}"
+                            thumbnail="{{ video.videoThumbnail|safe }}"
+                            title="{{ video.title|safe }}"
+                            date="{{ video.datePublished|date }}"
+                        ></video-card>
+                    </v-col>
+                    {% endfor %}
+                </v-row>
             </div>
         </template>
 
@@ -48,7 +55,7 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
         <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
         <script src="https://unpkg.com/vuex@2.0.0"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
         <script src="{% static 'index.js' %}" type="module"></script>
     </body>
 </html>

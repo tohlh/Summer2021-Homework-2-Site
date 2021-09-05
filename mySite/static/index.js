@@ -1,11 +1,7 @@
 const VideoCard = Vue.component('video-card', {
     template: '#video-card-template',
     delimiters: ['[[', ']]'],
-    data() {
-        return {
-            title: 'Dr Disrespect Sues Twitch as Daequan And Hamlinz Return - August 27, 2021 - Respawn Recap'
-        }
-    }
+    props: ['id', 'thumbnail', 'title', 'date'],
 })
 
 const Home = Vue.component('home', {
