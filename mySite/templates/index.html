@@ -39,19 +39,22 @@
         </template>
 
         <template id="home-template">
-            <div class="mt-5">
-                <v-row>
-                    {% for video in videos %}
-                    <v-col cols="4">
-                        <video-card
-                            id="{{ video.id|safe }}"
-                            thumbnail="{{ video.videoThumbnail|safe }}"
-                            title="{{ video.title|safe }}"
-                            date="{{ video.datePublished|date }}"
-                        ></video-card>
-                    </v-col>
-                    {% endfor %}
-                </v-row>
+            <div>
+                <h1>Trending Videos</h1>
+                <div class="my-5">
+                    <v-row>
+                        {% for video in videos %}
+                        <v-col cols="12" md="4">
+                            <video-card
+                                id="{{ video.id|safe }}"
+                                thumbnail="{{ video.videoThumbnail|safe }}"
+                                title="{{ video.title|safe }}"
+                                date="{{ video.datePublished|date }}"
+                            ></video-card>
+                        </v-col>
+                        {% endfor %}
+                    </v-row>
+                </div>
             </div>
         </template>
 
