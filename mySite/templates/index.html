@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,7 +27,7 @@
 
         <template id="video-card-template">
             <div>
-                <v-card class="rounded-xl" color="light-purple" height="300px" elevation="2" :href="'../../video/' + id">
+                <v-card class="rounded-xl" height="300px" elevation="2" :href="'../../video/' + id">
                     <v-img height="200px" :src="thumbnail"></v-img>
                     <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
                     <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
@@ -56,7 +55,6 @@
                 <v-row>
                     <v-col cols="12" md="10">
                         <v-pagination
-                            justify="center"
                             v-model="page"
                             :length="{{ maxLength }}"
                             :total-visible="14"
@@ -79,19 +77,6 @@
             </div>
         </template>
 
-        <template id="channels-template">
-            <div>
-                <h1>Channels Page</h1>
-                <v-row>
-                    {% for channel in channels %}
-                    <v-col cols="1">
-                        <v-img src="{{ channel.profilePic }}"></v-img>
-                    </v-col>
-                    {% endfor %}
-                </v-row>
-            </div>
-        </template>
-
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
         <script src="https://unpkg.com/vuex@2.0.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
@@ -101,7 +86,6 @@
                 delimiters: ['[[', ']]'],
                 props: ['id', 'thumbnail', 'title', 'date'],
             })
-
             const Home = Vue.component('home', {
                 components: {VideoCard},
                 template: '#home-template',
@@ -120,7 +104,10 @@
                     }
                 }
             })
+
+            const app = new Vue({
+                vuetify: new Vuetify(),
+            }).$mount('#app');
         </script>
-        <script src="{% static 'index.js' %}"></script>
     </body>
 </html>

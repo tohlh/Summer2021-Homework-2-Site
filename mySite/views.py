@@ -16,9 +16,17 @@ def index(request, page=1):
     }
     return render(request, 'index.html', data)
 
-def channels(request):
-    channels = Channel.objects.all()
+def channels(request, page=1):
+    channelsPerPage = 18
+    offset = (page - 1) * channelsPerPage
+    channels = Channel.objects.all()[offset:offset + channelsPerPage]
+    maxLength = ceil(Channel.objects.count() / channelsPerPage)
     data = {
-        'channels': channels
+        'channels': channels,
+        'page': int(page),
+        'maxLength': maxLength,
     }
+    for channel in channels:
+        print(channel.subscriberCount)
+
     return render(request, 'channels.html', data)
