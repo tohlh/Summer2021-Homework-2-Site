@@ -29,20 +29,7 @@
         <template id="video-card-template">
             <div>
                 <v-card class="rounded-xl" color="light-purple" height="300px" elevation="2" :href="'../../video/' + id">
-                    <v-img height="200px" :src="thumbnail">
-                        <template v-slot:placeholder>
-                            <v-row
-                              class="fill-height ma-0"
-                              align="center"
-                              justify="center"
-                            >
-                            <v-progress-circular
-                              indeterminate
-                              color="grey lighten-5"
-                            ></v-progress-circular>
-                          </v-row>
-                        </template>
-                    </v-img>
+                    <v-img height="200px" :src="thumbnail"></v-img>
                     <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
                     <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
                 </v-card>
