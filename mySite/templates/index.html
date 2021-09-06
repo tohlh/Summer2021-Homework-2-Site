@@ -107,8 +107,8 @@
                 template: '#home-template',
                 data() {
                     return {
-                        page: {{ page }},
-                        pageField: {{ page }},
+                        page: Number.parseInt("{{ page }}"),
+                        pageField: Number.parseInt("{{ page }}"),
                     }
                 },
                 methods: {
