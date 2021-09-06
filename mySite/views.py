@@ -13,8 +13,6 @@ def index(request, page=1):
         'page': int(page),
         'maxLength': maxLength,
     }
-    for video in videos:
-        print(video.id, ' ', video.title)
     return render(request, 'index.html', data)
 
 def channels(request):
