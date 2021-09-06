@@ -99,8 +99,12 @@
                     paginate() {
                         window.location.href = '/page/' + this.page
                     },
-                    paginateFromField(page) {
-                        window.location.href = '/page/' + this.pageField
+                    paginateFromField() {
+                        if (this.pageField <= Number.parseInt("{{ maxLength }}")) {
+                            window.location.href = '/page/' + this.pageField
+                        } else {
+                            window.alert("There are only {{ maxLength }} pages!")
+                        }
                     }
                 }
             })
