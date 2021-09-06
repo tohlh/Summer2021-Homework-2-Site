@@ -32,7 +32,7 @@
                         </v-form>
                     </v-toolbar>
                     <v-container>
-                        <Channels></Channels>
+                        <Search page={{ page }}></Search>
                     </v-container>
                 </v-main>
             </v-app>
@@ -50,13 +50,15 @@
             </div>
         </template>
 
-        <template id="channels-template">
+        <template id="search-template">
             <div>
+                <h1>You searched for "{{ searched }}" </h1>
+                {% if channels %}
                 <div>
-                    <h1>Trending Channels</h1>
+                    <h2 class="mt-5">Channels</h2>
                     <v-row class="my-5">
                         {% for channel in channels %}
-                        <v-col cols="6" sm="4" md="2">
+                        <v-col cols="6" sm="4" md="2" >
                             <channel-card
                                 id="{{ channel.id }}"
                                 profilepic="{{ channel.profilePic }}"
@@ -67,28 +69,7 @@
                         {% endfor %}
                     </v-row>
                 </div>
-                <v-row>
-                    <v-col cols="12" md="10">
-                        <v-pagination
-                            v-model="page"
-                            :length="{{ maxLength }}"
-                            :total-visible="14"
-                            @input="paginate"
-                        ></v-pagination>
-                    </v-col>
-                    <v-col cols="6" md="2">
-                        <v-input>
-                            <v-text-field
-                                v-model="pageField"
-                                label="Jump to"
-                                outlined
-                                dense
-                                type="number"
-                                @keyup.enter="paginateFromField"
-                            ></v-text-field>
-                        </v-input>
-                    </v-col>
-                </v-row>
+                {% endif %}
             </div>
         </template>
 
@@ -102,31 +83,17 @@
                 props: ['id', 'profilepic', 'name', 'subscribercount'],
             })
 
-            const Channels = Vue.component('channels', {
-                components: {ChannelCard},
-                template: '#channels-template',
-                data() {
-                    return {
-                        page: Number.parseInt("{{ page }}"),
-                        pageField: Number.parseInt("{{ page }}"),
-                    }
-                },
-                methods: {
-                    paginate() {
-                        window.location.href = '/channel/page/' + this.page
-                    },
-                    paginateFromField() {
-                        if (this.pageField <= Number.parseInt("{{ maxLength }}")) {
-                            window.location.href = '/channel/page/' + this.pageField
-                        } else {
-                            window.alert("There are only {{ maxLength }} pages!")
-                        }
-                    }
-                }
+            const Search = Vue.component('search', {
+                template: '#search-template',
             })
 
             const app = new Vue({
+                components: {
+                    ChannelCard,
+                    Search,
+                },
                 vuetify: new Vuetify(),
+                delimiters: ['[[', ']]'],
             }).$mount('#app');
         </script>
     </body>

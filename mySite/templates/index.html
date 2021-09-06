@@ -15,14 +15,16 @@
                             DIY TUBE
                         </v-toolbar-title>
                         <v-spacer></v-spacer>
-                        <v-btn depressed color="white" href="/">Home</v-btn>
+                        <v-btn depressed color="white" href="/">Videos</v-btn>
                         <v-btn depressed color="white" href="/channels">Channels</v-btn>
-                        <v-form method=POST action="/search">
+                        <v-form method="POST" action="/search-videos">
                             {% csrf_token %}
-                            <v-text-field 
+                            <v-text-field
+                                class="mx-3"
                                 name="searched"
                                 style="width:200px"
                                 hide-details
+                                label="Search for videos"
                                 prepend-icon="mdi-magnify"
                                 single-line
                             >
@@ -72,7 +74,7 @@
                             @input="paginate"
                         ></v-pagination>
                     </v-col>
-                    <v-col cols="6" md="2">
+                    <v-col cols="12" md="2">
                         <v-input>
                             <v-text-field
                                 v-model="pageField"

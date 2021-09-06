@@ -24,5 +24,6 @@ urlpatterns = [
     path('page/<int:page>/', mySite_views.index),
     path('channels/', mySite_views.channels),
     path('channel/page/<int:page>', mySite_views.channels),
-    path('search', mySite_views.search_result)
+    path('search-videos', mySite_views.search_videos_result),
+    path('search-channels', mySite_views.search_channels_result),
 ]
