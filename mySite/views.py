@@ -5,9 +5,10 @@ from .models import Channel
 from .models import Video
 # Create your views here.
 def index(request, page=1):
-    offset = (page - 1) * 21
-    videos = Video.objects.all()[offset:offset + 21]
-    maxLength = ceil(Video.objects.count() / 21)
+    videosPerPage = 20
+    offset = (page - 1) * videosPerPage
+    videos = Video.objects.all()[offset:offset + videosPerPage]
+    maxLength = ceil(Video.objects.count() / videosPerPage)
     data = {
         'videos': videos,
         'page': int(page),
