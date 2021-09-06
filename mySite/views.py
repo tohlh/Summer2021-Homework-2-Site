@@ -26,7 +26,4 @@ def channels(request, page=1):
         'page': int(page),
         'maxLength': maxLength,
     }
-    for channel in channels:
-        print(channel.subscriberCount)
-
     return render(request, 'channels.html', data)
