@@ -9,7 +9,7 @@ from .models import Video
 def index(request, page=1):
     videosPerPage = 20
     offset = (page - 1) * videosPerPage
-    videos = Video.objects.all()[offset:offset + videosPerPage]
+    videos = Video.objects.all().order_by('-interactionCount')[offset:offset + videosPerPage]
     maxLength = ceil(Video.objects.count() / videosPerPage)
     data = {
         'videos': videos,
