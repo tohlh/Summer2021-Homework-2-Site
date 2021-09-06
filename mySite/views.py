@@ -69,3 +69,23 @@ def search_channels_result(request):
     }
 
     return render(request, 'search-result-channels.html', data)
+
+def video_details(request, id):
+    video = Video.objects.get(id = id)
+    channel = Channel.objects.get(id = video.channelID)
+
+    data = {
+        'video': video,
+        'channel': channel,
+    }
+
+    return render(request, 'video-details.html', data)
+
+def channel_details(request, id):
+    channel = Channel.objects.get(id=id)
+
+    data = {
+        'channel': channel,
+    }
+
+    return render(request, 'channel-details.html', data)

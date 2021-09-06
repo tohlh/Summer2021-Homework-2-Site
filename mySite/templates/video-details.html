@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    </head>
+    <body>
+        <div id="app">
+            <v-app>
+                <v-main>
+                    <v-toolbar flat>
+                        <v-spacer></v-spacer>
+                        <v-btn depressed color="white" href="/">Videos</v-btn>
+                        <v-btn depressed color="white" href="/channels">Channels</v-btn>
+                        <v-form method="POST" action="/search-videos">
+                            {% csrf_token %}
+                            <v-text-field
+                                class="mx-3"
+                                name="searched"
+                                style="width:200px"
+                                hide-details
+                                label="Search for videos"
+                                prepend-icon="mdi-magnify"
+                                single-line
+                            >
+                            </v-text-field>
+                        </v-form>
+                    </v-toolbar>
+                    <v-container>
+                        <video-details></video-details>
+                    </v-container>
+                </v-main>
+            </v-app>
+        </div>
+
+        <template id="details-card-template">
+            <div>
+                <v-card class="rounded-xl">
+                    <v-card-title>
+                        <v-list-item-icon>
+                            <v-img height="100%" src="{{channel.profilePic}}"></v-img>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <a class="text-truncate" href="/channel/{{channel.id}}">{{ channel.name }}</a>
+                        </v-list-item-content>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Views
+                            </v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ video.interactionCount }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Date Published
+                            </v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ video.datePublished | date }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Genre
+                            </v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ video.genre }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-icon>
+                                <v-icon>mdi-thumb-up</v-icon>
+                            </v-list-item-icon>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ video.likeCount }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-icon>
+                                <v-icon>mdi-thumb-down</v-icon>
+                            </v-list-item-icon>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ video.dislikecount }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-card>
+            </div>
+        </template>
+
+        <template id="video-details-template">
+            <div>
+                <h1>{{ video.title }}</h1>
+                <v-row>
+                    <v-col cols="12" sm="6" md="8">
+                        <iframe
+                            class="rounded-xl mt-5"
+                            src="https://www.youtube.com/embed/{{ video.id }}"
+                            height="380px"
+                            width="100%"
+                            allow="fullscreen;"
+                        ></iframe>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                        <details-card class='mt-5'>
+                        </details-card>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12">
+                        <v-card class="rounded-xl">
+                            <v-card-title>Description</v-card-title>
+                            <v-divider></v-divider>
+                            <v-card-content>
+                                <v-card-text>
+                                    {{ video.description | linebreaksbr }}
+                                </v-card-text>
+                            </v-card-content>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-card class="rounded-xl">
+                            <v-card-title>Comments</v-card-title>
+                            <v-divider></v-divider>
+                            {% for comment in video.comments %}
+                            <v-card-content>
+                                <v-card-text>
+                                    {{ comment | linebreaksbr }}
+                                </v-card-text>
+                            </v-card-content>
+                            <v-divider></v-divider>
+                            {% endfor %}
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </div>
+        </template>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vuex@2.0.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
+        <script>
+            const DetailsCard = Vue.component('details-card', {
+                template: '#details-card-template',
+            })
+
+            const VideoDetail = Vue.component('video-details', {
+                template: '#video-details-template',
+            })
+
+            const app = new Vue({
+                vuetify: new Vuetify(),
+            }).$mount('#app');
+        </script>
+    </body>
+</html>
