@@ -30,7 +30,7 @@
                         </v-form>
                     </v-toolbar>
                     <v-container>
-                        <Home page={{ page }}></Home>
+                        <Search page={{ page }}></Search>
                     </v-container>
                 </v-main>
             </v-app>
@@ -46,9 +46,23 @@
             </div>
         </template>
 
-        <template id="home-template">
+        <template id="channel-card-template">
             <div>
-                <h1>Trending Videos</h1>
+                <v-card class="rounded-xl" height="280px" elevation="2" :href="'../../channel/' + id">
+                    <v-img max-height="180px" :src="profilepic"></v-img>
+                    <v-card-title class="col-11 text-truncate">[[ name ]]</v-card-title>
+                    <v-card-text v-if="subscribercount != ''"> 
+                        [[ subscribercount ]] subscribers 
+                    </v-card-text>
+                </v-card>
+            </div>
+        </template>
+
+        <template id="search-template">
+            <div>
+                <h1>You searched for "{{ searched }}" </h1>
+
+                <h2 class="mt-5">Videos</h2>
                 <div class="my-5">
                     <v-row>
                         {% for video in videos %}
@@ -63,28 +77,23 @@
                         {% endfor %}
                     </v-row>
                 </div>
-                <v-row>
-                    <v-col cols="12" md="10">
-                        <v-pagination
-                            v-model="page"
-                            :length="{{ maxLength }}"
-                            :total-visible="14"
-                            @input="paginate"
-                        ></v-pagination>
-                    </v-col>
-                    <v-col cols="6" md="2">
-                        <v-input>
-                            <v-text-field
-                                v-model="pageField"
-                                label="Jump to"
-                                outlined
-                                dense
-                                type="number"
-                                @keyup.enter="paginateFromField"
-                            ></v-text-field>
-                        </v-input>
-                    </v-col>
-                </v-row>
+
+                <div>
+                    <h2>Channels</h2>
+                    <v-row class="my-5">
+                        {% for channel in channels %}
+                        <v-col cols="6" sm="4" md="2">
+                            <channel-card
+                                id="{{ channel.id }}"
+                                profilepic="{{ channel.profilePic }}"
+                                name="{{ channel.name }}"
+                                subscribercount="{{ channel.subscriberCount }}"
+                            ></channel-card>
+                        </v-col>
+                        {% endfor %}
+                    </v-row>
+                </div>
+                
             </div>
         </template>
 
@@ -92,36 +101,30 @@
         <script src="https://unpkg.com/vuex@2.0.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
         <script>
+            const ChannelCard = Vue.component('channel-card', {
+                template: '#channel-card-template',
+                delimiters: ['[[', ']]'],
+                props: ['id', 'profilepic', 'name', 'subscribercount'],
+            })
+
             const VideoCard = Vue.component('video-card', {
                 template: '#video-card-template',
                 delimiters: ['[[', ']]'],
                 props: ['id', 'thumbnail', 'title', 'date'],
             })
-            const Home = Vue.component('home', {
-                components: {VideoCard},
-                template: '#home-template',
-                data() {
-                    return {
-                        page: Number.parseInt("{{ page }}"),
-                        pageField: Number.parseInt("{{ page }}"),
-                    }
-                },
-                methods: {
-                    paginate() {
-                        window.location.href = '/page/' + this.page
-                    },
-                    paginateFromField() {
-                        if (this.pageField <= Number.parseInt("{{ maxLength }}")) {
-                            window.location.href = '/page/' + this.pageField
-                        } else {
-                            window.alert("There are only {{ maxLength }} pages!")
-                        }
-                    }
-                }
+
+            const Search = Vue.component('search', {
+                template: '#search-template',
             })
 
             const app = new Vue({
+                components: {
+                    ChannelCard,
+                    VideoCard,
+                    Search,
+                },
                 vuetify: new Vuetify(),
+                delimiters: ['[[', ']]'],
             }).$mount('#app');
         </script>
     </body>

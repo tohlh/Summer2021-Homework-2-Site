@@ -17,6 +17,15 @@
                         <v-spacer></v-spacer>
                         <v-btn depressed color="white" href="/">Home</v-btn>
                         <v-btn depressed color="white" href="/channels">Channels</v-btn>
+                        <v-form method=POST action="/search">
+                            <v-text-field 
+                                style="width:200px"
+                                hide-details
+                                prepend-icon="mdi-magnify"
+                                single-line
+                            >
+                            </v-text-field>
+                        </v-form>
                     </v-toolbar>
                     <v-container>
                         <Channels></Channels>
