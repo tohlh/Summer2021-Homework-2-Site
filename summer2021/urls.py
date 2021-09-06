@@ -21,5 +21,6 @@ from mySite import views as mySite_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mySite_views.index),
-    path('channels/', mySite_views.index),
+    path('page/<int:page>/', mySite_views.index),
+    path('channels/', mySite_views.channels),
 ]

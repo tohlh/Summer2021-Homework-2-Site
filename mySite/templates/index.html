@@ -5,24 +5,22 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-        <link href="{% static 'styles.css' %}" rel=”stylesheet”>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     </head>
     <body>
         <div id="app">
             <v-app>
                 <v-main>
-                    <v-toolbar>
+                    <v-toolbar flat>
                         <v-toolbar-title>
                             DIY TUBE
                         </v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-btn depressed color="white" href="/">Home</v-btn>
+                        <v-btn depressed color="white" href="/channels">Channels</v-btn>
                     </v-toolbar>
-                    <v-tabs>
-                        <v-tab to="/">Home</v-tab>
-                        <v-tab to="/channels">Channels</v-tab>
-                    </v-tabs>
                     <v-container>
-                        <router-view></router-view>
+                        <Home page={{ page }}></Home>
                     </v-container>
                 </v-main>
             </v-app>
@@ -30,7 +28,7 @@
 
         <template id="video-card-template">
             <div>
-                <v-card class="rounded-xl" color="light-purple" height="300px" elevation="2" :to="'video/' + id">
+                <v-card class="rounded-xl" color="light-purple" height="300px" elevation="2" :href="'video/' + id">
                     <v-img height="200px" :src="thumbnail"></v-img>
                     <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
                     <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
@@ -48,26 +46,81 @@
                             <video-card
                                 id="{{ video.id|safe }}"
                                 thumbnail="{{ video.videoThumbnail|safe }}"
-                                title="{{ video.title|safe }}"
+                                title="{{ video.title }}"
                                 date="{{ video.datePublished|date }}"
                             ></video-card>
                         </v-col>
                         {% endfor %}
                     </v-row>
                 </div>
+                <v-row>
+                    <v-col cols="10">
+                        <v-pagination
+                            justify="center"
+                            v-model="page"
+                            :length="{{ maxLength }}"
+                            :total-visible="14"
+                            @input="paginate"
+                        ></v-pagination>
+                    </v-col>
+                    <v-col cols="2">
+                        <v-input>
+                            <v-text-field
+                                v-model="pageField"
+                                label="Jump to"
+                                outlined
+                                dense
+                                type="number"
+                                @keyup.enter="paginateFromField"
+                            ></v-text-field>
+                        </v-input>
+                    </v-col>
+                </v-row>
             </div>
         </template>
 
         <template id="channels-template">
             <div>
                 <h1>Channels Page</h1>
+                <v-row>
+                    {% for channel in channels %}
+                    <v-col cols="1">
+                        <v-img src="{{ channel.profilePic }}"></v-img>
+                    </v-col>
+                    {% endfor %}
+                </v-row>
             </div>
         </template>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-        <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
         <script src="https://unpkg.com/vuex@2.0.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
-        <script src="{% static 'index.js' %}" type="module"></script>
+        <script>
+            const VideoCard = Vue.component('video-card', {
+                template: '#video-card-template',
+                delimiters: ['[[', ']]'],
+                props: ['id', 'thumbnail', 'title', 'date'],
+            })
+
+            const Home = Vue.component('home', {
+                components: {VideoCard},
+                template: '#home-template',
+                data() {
+                    return {
+                        page: {{ page }},
+                        pageField: {{ page }},
+                    }
+                },
+                methods: {
+                    paginate() {
+                        window.location.href = '/page/' + this.page
+                    },
+                    paginateFromField(page) {
+                        window.location.href = '/page/' + this.pageField
+                    }
+                }
+            })
+        </script>
+        <script src="{% static 'index.js' %}"></script>
     </body>
 </html>

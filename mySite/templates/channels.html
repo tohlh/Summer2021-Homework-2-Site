@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    </head>
+    <body>
+        <div id="app">
+            <v-app>
+                <v-main>
+                    <v-toolbar flat>
+                        <v-toolbar-title>
+                            DIY TUBE
+                        </v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-btn depressed color="white" href="/">Home</v-btn>
+                        <v-btn depressed color="white" href="/channels">Channels</v-btn>
+                    </v-toolbar>
+                    <v-container>
+                        <Channels></Channels>
+                    </v-container>
+                </v-main>
+            </v-app>
+        </div>
+
+        <template id="channels-template">
+            <div>
+                <h1>Channels Page</h1>
+                <v-row>
+                    {% for channel in channels %}
+                    <v-col cols="1">
+                        <v-img src="{{ channel.profilePic }}"></v-img>
+                    </v-col>
+                    {% endfor %}
+                </v-row>
+            </div>
+        </template>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+        <script src="https://unpkg.com/vuex@2.0.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
+        <script>
+            const Channels = Vue.component('channels', {
+                template: '#channels-template',
+            })
+
+            const app = new Vue({
+                Channels,
+                vuetify: new Vuetify(),
+            }).$mount('#app');
+        </script>
+    </body>
+</html>
