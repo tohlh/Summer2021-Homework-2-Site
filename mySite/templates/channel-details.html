@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,7 +55,7 @@
                         </v-list-item-content>
                         <v-list-item-content>
                             <v-list-item-subtitle>
-                                {{ channel.totalViews }}
+                                {{ channel.totalViews | intcomma }}
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
@@ -100,7 +101,7 @@
                                     id="{{ video.id|safe }}"
                                     thumbnail="{{ video.videoThumbnail|safe }}"
                                     title="{{ video.title }}"
-                                    date="{{ video.datePublished|date }}"
+                                    views="{{ video.interactionCount | intcomma }}"
                                 >
                                 </video-card>
                             </v-col>

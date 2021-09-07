@@ -71,12 +71,12 @@ const VideoCard = Vue.component('video-card', {
         <v-card class="rounded-lg" height="300px" elevation="2" :href="'../../video/' + id">
             <v-img height="200px" :src="thumbnail"></v-img>
             <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
-            <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
+            <v-card-text> [[ views ]] views </v-card-text>
         </v-card>
     </div>
     `,
     delimiters: ['[[', ']]'],
-    props: ['id', 'thumbnail', 'title', 'date'],
+    props: ['id', 'thumbnail', 'title', 'views'],
 })
 
 const ChannelCard = Vue.component('channel-card', {

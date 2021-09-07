@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +44,7 @@
                         </v-list-item-content>
                         <v-list-item-content>
                             <v-list-item-subtitle>
-                                {{ video.interactionCount }}
+                                {{ video.interactionCount | intcomma }}
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
@@ -79,7 +80,7 @@
                         </v-list-item-content>
                         <v-list-item-content>
                             <v-list-item-subtitle>
-                                {{ video.likeCount }}
+                                {{ video.likeCount | intcomma }}
                             </v-list-item-subtitle>
                         </v-list-item-content>
                         <v-list-item-content>
@@ -89,7 +90,7 @@
                         </v-list-item-content>
                         <v-list-item-content>
                             <v-list-item-subtitle>
-                                {{ video.dislikecount }}
+                                {{ video.dislikecount | intcomma }}
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
