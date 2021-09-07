@@ -9,24 +9,26 @@ const Toolbar = Vue.component('toolbar', {
             <slot name="token"></slot>
             <v-row>
             <v-text-field 
-                class="mt-4 mx-3"
+                class="mt-7 mx-3"
                 name="searched"
                 style="width:200px"
-                hide-details
                 label="Search for..."
                 prepend-icon="mdi-magnify"
                 outlined
+                maxlength="50"
+                hint="Max 50 characters"
+                :rules="rules"
                 dense
                 single-line
             ></v-text-field>
             <v-btn
-                class="mt-6 mr-5"
+                class="mt-8 mr-5"
                 small
                 depressed
                 type="submit"
             >Search</v-btn>
             <v-radio-group
-                class="mt-6 mx-2"
+                class="mt-8 mx-2"
                 v-model=searchOption
                 align="center"
                 row
@@ -45,7 +47,8 @@ const Toolbar = Vue.component('toolbar', {
     </v-toolbar>`,
     data() {
         return {
-            searchOption: "search-videos"
+            searchOption: "search-videos",
+            rules: [v => v.length <= 50 || 'Max 50 characters'],
         }
     }
 })
