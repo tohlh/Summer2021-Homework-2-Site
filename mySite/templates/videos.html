@@ -15,13 +15,13 @@
                         <span slot="token">{% csrf_token %}</span>
                     </toolbar>
                     <v-container>
-                        <home></home>
+                        <videos></videos>
                     </v-container>
                 </v-main>
             </v-app>
         </div>
 
-        <template id="home-template">
+        <template id="videos-template">
             <div>
                 <h1>Trending Videos</h1>
                 <div class="my-5">
@@ -68,9 +68,9 @@
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
         <script src="{% static 'components.js' %}"></script>
         <script>
-            const Home = Vue.component('home', {
+            const Videos = Vue.component('videos', {
                 components: {VideoCard},
-                template: '#home-template',
+                template: '#videos-template',
                 data() {
                     return {
                         page: Number.parseInt("{{ page }}"),

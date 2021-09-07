@@ -18,7 +18,7 @@ def index(request, page=1):
     }
     if (page > maxLength):
         return HttpResponseNotFound('<h1>Page not found</h1>')
-    return render(request, 'index.html', data)
+    return render(request, 'videos.html', data)
 
 def channels(request, page=1):
     channelsPerPage = 18
