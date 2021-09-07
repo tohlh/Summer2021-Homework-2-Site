@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseNotFound
 from django.db.models import Q
 
@@ -35,6 +35,9 @@ def channels(request, page=1):
     return render(request, 'channels.html', data)
 
 def search_videos_result(request, page=1):
+    if request.method != 'POST':
+        return redirect('/')
+
     searched = request.POST['searched']
     
     keywords = searched.split(' ')
@@ -59,6 +62,9 @@ def search_videos_result(request, page=1):
     return render(request, 'search-result-videos.html', data)
 
 def search_channels_result(request, page=1):
+    if request.method != 'POST':
+        return redirect('/channels')
+
     searched = request.POST['searched']
 
     keywords = searched.split(' ')
