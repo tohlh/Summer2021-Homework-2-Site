@@ -23,7 +23,7 @@ def index(request, page=1):
 def channels(request, page=1):
     channelsPerPage = 18
     offset = (page - 1) * channelsPerPage
-    channels = Channel.objects.all()[offset:offset + channelsPerPage]
+    channels = Channel.objects.all().order_by('-totalViews')[offset:offset + channelsPerPage]
     maxLength = ceil(Channel.objects.count() / channelsPerPage)
     data = {
         'channels': channels,
@@ -96,9 +96,11 @@ def video_details(request, id):
 
 def channel_details(request, id):
     channel = Channel.objects.get(id=id)
+    videos = Video.objects.filter(channelID=channel.id)
 
     data = {
         'channel': channel,
+        'videos': videos,
     }
 
     return render(request, 'channel-details.html', data)

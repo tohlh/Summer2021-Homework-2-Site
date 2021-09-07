@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    </head>
+    <body>
+        <div id="app">
+            <v-app>
+                <v-main>
+                    <toolbar searchtype="channel">
+                        <span slot="token">{% csrf_token %}</span>
+                    </toolbar>
+                    <v-container>
+                        <channel-details></channels-details>
+                    </v-container>
+                </v-main>
+            </v-app>
+        </div>
+
+        <template id="channel-details-card-template">
+            <div>
+                <v-card class="rounded-xl">
+                    <v-card-title>
+                        <v-list-item-icon>
+                            <v-img height="100%" src="{{channel.profilePic}}"></v-img>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <a class="text-truncate" href="//youtube.com/channel/{{channel.id}}">{{ channel.name }}</a>
+                        </v-list-item-content>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Subscribers
+                            </v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ channel.subscriberCount }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item><v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Total Views
+                            </v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ channel.totalViews }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Joined Date
+                            </v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>
+                                {{ channel.joinedDate | date }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-card>
+            </div>
+        </template>
+
+        <template id="channel-details-template">
+            <div>
+                <v-row>
+                    <v-col cols="12" sm="6" md="5">
+                        <div style="position: sticky; top: 76px">
+                            <channel-details-card class='mt-5'>
+                            </channel-details-card>
+                            <v-card class="mt-5 rounded-xl">
+                                <v-card-title>
+                                    Description
+                                </v-card-title>
+                                <v-divider></v-divider>
+                                <v-card-text>
+                                    {{ channel.description | linebreaksbr }}
+                                </v-card-text>
+                            </v-card>
+                        </div>
+                    </v-col>
+                    <v-col class="mt-5" cols="12" sm="6" md="7">
+                        <v-row>
+                            {% for video in videos %}
+                            <v-col cols=12 sm="6" md="6">
+                                <video-card
+                                    id="{{ video.id|safe }}"
+                                    thumbnail="{{ video.videoThumbnail|safe }}"
+                                    title="{{ video.title }}"
+                                    date="{{ video.datePublished|date }}"
+                                >
+                                </video-card>
+                            </v-col>
+                            {% endfor %}
+                        </v-row>
+                    </v-col>
+                </v-row>
+            </div>
+        </template>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vuex@2.0.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
+        <script src="{% static 'components.js' %}"></script>
+        <script>
+            const ChannelDetailsCard = Vue.component('channel-details-card', {
+                template: '#channel-details-card-template',
+            })
+
+            const ChannelDetail = Vue.component('channel-details', {
+                template: '#channel-details-template',
+            })
+
+            const app = new Vue({
+                vuetify: new Vuetify(),
+            }).$mount('#app');
+        </script>
+    </body>
+</html>
