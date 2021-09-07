@@ -118,11 +118,9 @@
                         <v-card class="rounded-xl">
                             <v-card-title>Description</v-card-title>
                             <v-divider></v-divider>
-                            <v-card-content>
-                                <v-card-text>
-                                    {{ video.description | linebreaksbr }}
-                                </v-card-text>
-                            </v-card-content>
+                            <v-card-text>
+                                {{ video.description | linebreaksbr }}
+                            </v-card-text>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -131,14 +129,18 @@
                         <v-card class="rounded-xl">
                             <v-card-title>Comments</v-card-title>
                             <v-divider></v-divider>
+                            {% if videos.comments %}
                             {% for comment in video.comments %}
-                            <v-card-content>
-                                <v-card-text>
-                                    {{ comment | linebreaksbr }}
-                                </v-card-text>
-                            </v-card-content>
+                            <v-card-text>
+                                {{ comment | linebreaksbr }}
+                            </v-card-text>
                             <v-divider></v-divider>
                             {% endfor %}
+                            {% else %}
+                            <v-card-text>
+                                No comment
+                            </v-card-text>
+                            {% endif %}
                         </v-card>
                     </v-col>
                 </v-row>
@@ -150,7 +152,7 @@
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
         <script src="{% static 'components.js' %}"></script>
         <script>
-            const DetailsCard = Vue.component('video-details-card', {
+            const VideoDetailsCard = Vue.component('video-details-card', {
                 template: '#video-details-card-template',
             })
 
