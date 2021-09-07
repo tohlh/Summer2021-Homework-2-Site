@@ -1,39 +1,7 @@
-const VideoCard = Vue.component('video-card', {
-    template:
-    `
-    <div>
-        <v-card class="rounded-lg" height="300px" elevation="2" :href="'../../video/' + id">
-            <v-img height="200px" :src="thumbnail"></v-img>
-            <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
-            <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
-        </v-card>
-    </div>
-    `,
-    delimiters: ['[[', ']]'],
-    props: ['id', 'thumbnail', 'title', 'date'],
-})
-
-const ChannelCard = Vue.component('channel-card', {
-    template:
-    `
-    <div>
-        <v-card class="rounded-lg" max-height="280px" elevation="2" :href="'../../channel/' + id">
-            <v-img height="180px" :src="profilepic"></v-img>
-            <v-card-title class="col-11 text-truncate">[[ name ]]</v-card-title>
-            <v-card-text v-if="subscribercount != ''"> 
-                [[ subscribercount ]] subscribers 
-            </v-card-text>
-        </v-card>
-    </div>    
-    `,
-    delimiters: ['[[', ']]'],
-    props: ['id', 'profilepic', 'name', 'subscribercount'],
-})
-
 const Toolbar = Vue.component('toolbar', {
     template:
     `
-    <v-toolbar flat id="toolbar">
+    <v-toolbar color="black" flat id="toolbar">
         <v-spacer></v-spacer>
         <v-btn class="mx-3" depressed color="#000000" href="/">Videos</v-btn>
         <v-btn class="mr-3" depressed color="#000000" href="/channels">Channels</v-btn>
@@ -80,6 +48,49 @@ const Toolbar = Vue.component('toolbar', {
             searchOption: "search-videos"
         }
     }
+})
+
+const Footer = Vue.component('page-footer', {
+    template: `
+    <v-footer class="my-5" color="black" padless>
+        <v-row>
+            <v-col class="text-center" cols="12">
+                2021 - tohlh
+            </v-col>
+        </v-row>
+    </v-footer>`,
+})
+
+const VideoCard = Vue.component('video-card', {
+    template:
+    `
+    <div>
+        <v-card class="rounded-lg" height="300px" elevation="2" :href="'../../video/' + id">
+            <v-img height="200px" :src="thumbnail"></v-img>
+            <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
+            <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
+        </v-card>
+    </div>
+    `,
+    delimiters: ['[[', ']]'],
+    props: ['id', 'thumbnail', 'title', 'date'],
+})
+
+const ChannelCard = Vue.component('channel-card', {
+    template:
+    `
+    <div>
+        <v-card class="rounded-lg" max-height="280px" elevation="2" :href="'../../channel/' + id">
+            <v-img height="180px" :src="profilepic"></v-img>
+            <v-card-title class="col-11 text-truncate">[[ name ]]</v-card-title>
+            <v-card-text v-if="subscribercount != ''"> 
+                [[ subscribercount ]] subscribers 
+            </v-card-text>
+        </v-card>
+    </div>    
+    `,
+    delimiters: ['[[', ']]'],
+    props: ['id', 'profilepic', 'name', 'subscribercount'],
 })
 
 const theme = {

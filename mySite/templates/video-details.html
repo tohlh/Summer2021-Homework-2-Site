@@ -12,12 +12,13 @@
         <div id="app">
             <v-app>
                 <v-main>
-                    <toolbar>>
+                    <toolbar>
                         <span slot="token">{% csrf_token %}</span>
                     </toolbar>
                     <v-container>
                         <video-details></video-details>
                     </v-container>
+                    <page-footer></page-footer>
                 </v-main>
             </v-app>
         </div>
