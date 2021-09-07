@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,24 +11,9 @@
         <div id="app">
             <v-app>
                 <v-main>
-                    <v-toolbar flat>
-                        <v-spacer></v-spacer>
-                        <v-btn depressed color="white" href="/">Videos</v-btn>
-                        <v-btn depressed color="white" href="/channels">Channels</v-btn>
-                        <v-form method="POST" action="/search-videos">
-                            {% csrf_token %}
-                            <v-text-field
-                                class="mx-3"
-                                name="searched"
-                                style="width:200px"
-                                hide-details
-                                label="Search for videos"
-                                prepend-icon="mdi-magnify"
-                                single-line
-                            >
-                            </v-text-field>
-                        </v-form>
-                    </v-toolbar>
+                    <toolbar searchtype="video">
+                        <span slot="token">{% csrf_token %}</span>
+                    </toolbar>
                     <v-container>
                         <video-details></video-details>
                     </v-container>
@@ -35,7 +21,7 @@
             </v-app>
         </div>
 
-        <template id="details-card-template">
+        <template id="video-details-card-template">
             <div>
                 <v-card class="rounded-xl">
                     <v-card-title>
@@ -123,8 +109,8 @@
                         ></iframe>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                        <details-card class='mt-5'>
-                        </details-card>
+                        <video-details-card class='mt-5'>
+                        </video-details-card>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -162,9 +148,10 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
         <script src="https://unpkg.com/vuex@2.0.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
+        <script src="{% static 'components.js' %}"></script>
         <script>
-            const DetailsCard = Vue.component('details-card', {
-                template: '#details-card-template',
+            const DetailsCard = Vue.component('video-details-card', {
+                template: '#video-details-card-template',
             })
 
             const VideoDetail = Vue.component('video-details', {

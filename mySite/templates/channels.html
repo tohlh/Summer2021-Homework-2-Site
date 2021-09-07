@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,42 +11,15 @@
         <div id="app">
             <v-app>
                 <v-main>
-                    <v-toolbar flat>
-                        <v-spacer></v-spacer>
-                        <v-btn depressed color="white" href="/">Videos</v-btn>
-                        <v-btn depressed color="white" href="/channels">Channels</v-btn>
-                        <v-form method="POST" action="/search-channels">
-                            {% csrf_token %}
-                            <v-text-field
-                                class="mx-3"
-                                name="searched"
-                                style="width:200px"
-                                hide-details
-                                label="Search for channels"
-                                prepend-icon="mdi-magnify"
-                                single-line
-                            >
-                            </v-text-field>
-                        </v-form>
-                    </v-toolbar>
+                    <toolbar searchtype="channel">
+                        <span slot="token">{% csrf_token %}</span>
+                    </toolbar>
                     <v-container>
-                        <Channels></Channels>
+                        <channels></channels>
                     </v-container>
                 </v-main>
             </v-app>
         </div>
-
-        <template id="channel-card-template">
-            <div>
-                <v-card class="rounded-xl" height="280px" elevation="2" :href="'../../channel/' + id">
-                    <v-img max-height="180px" :src="profilepic"></v-img>
-                    <v-card-title class="col-11 text-truncate">[[ name ]]</v-card-title>
-                    <v-card-text v-if="subscribercount != ''"> 
-                        [[ subscribercount ]] subscribers 
-                    </v-card-text>
-                </v-card>
-            </div>
-        </template>
 
         <template id="channels-template">
             <div>
@@ -92,13 +66,8 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
         <script src="https://unpkg.com/vuex@2.0.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.js"></script>
+        <script src="{% static 'components.js' %}"></script>
         <script>
-            const ChannelCard = Vue.component('channel-card', {
-                template: '#channel-card-template',
-                delimiters: ['[[', ']]'],
-                props: ['id', 'profilepic', 'name', 'subscribercount'],
-            })
-
             const Channels = Vue.component('channels', {
                 components: {ChannelCard},
                 template: '#channels-template',
