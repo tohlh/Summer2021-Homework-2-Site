@@ -23,25 +23,55 @@
 
         <template id="search-template">
             <div>
-                <h1>You searched for "{{ searched }}" </h1>
-                {% if videos %}
-                <h2 class="mt-5">Videos</h2>
-                <div class="my-5">
+                <div>
+                    <h1>You searched for "{{ searched }}" </h1>
+                    {% if videos %}
+                    <h2 class="mt-5">Videos</h2>
+                    <div class="my-5">
+                        <v-row>
+                            {% for video in videos %}
+                            <v-col cols="12" sm="6" md="4" lg="3" xl="2">
+                                <video-card
+                                    id="{{ video.id|safe }}"
+                                    thumbnail="{{ video.videoThumbnail|safe }}"
+                                    title="{{ video.title }}"
+                                    date="{{ video.datePublished|date }}"
+                                ></video-card>
+                            </v-col>
+                            {% endfor %}
+                        </v-row>
+                    </div>
+                    {% else %}
+                    <h2 class="mt-5">No video found!</h2>
+                    {% endif %}
+                </div>
+                {% if maxLength > 1 %}                   
+                <div>
                     <v-row>
-                        {% for video in videos %}
-                        <v-col cols="12" sm="6" md="4" lg="3" xl="2">
-                            <video-card
-                                id="{{ video.id|safe }}"
-                                thumbnail="{{ video.videoThumbnail|safe }}"
-                                title="{{ video.title }}"
-                                date="{{ video.datePublished|date }}"
-                            ></video-card>
+                        <v-col cols="12" md="10">
+                            <div>
+                                <v-pagination
+                                    v-model="page"
+                                    :length="{{ maxLength }}"
+                                    :total-visible="14"
+                                    @input="paginate"
+                                ></v-pagination>
+                            </div>
                         </v-col>
-                        {% endfor %}
+                        <v-col cols="12" md="2">
+                            <v-input>
+                                <v-text-field
+                                    v-model="pageField"
+                                    label="Jump to"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @keyup.enter="paginateFromField"
+                                ></v-text-field>
+                            </v-input>
+                        </v-col>
                     </v-row>
                 </div>
-                {% else %}
-                <h2 class="mt-5">No video found!</h2>
                 {% endif %}
             </div>
         </template>
@@ -53,6 +83,52 @@
         <script>
             const SearchVideo = Vue.component('search-video', {
                 template: '#search-template',
+                data() {
+                    return {
+                        page: Number.parseInt("{{ page }}"),
+                        pageField: Number.parseInt("{{ page }}"),
+                    }
+                },
+                methods: {
+                    paginate() {
+                        var url = '/search-videos/page/' + this.page
+                        var form = document.createElement('form')
+                        form.innerHTML = `{% csrf_token %}`
+                        form.setAttribute('method', "POST")
+                        form.setAttribute('action', url)
+                        form.setAttribute('name', 'searched')
+                        
+                        const searched = document.createElement('input')
+                        searched.setAttribute('type', 'hidden')
+                        searched.setAttribute('name', 'searched')
+                        searched.setAttribute('value', '{{ searched }}')
+                        form.appendChild(searched)
+
+                        document.body.append(form)
+                        form.submit();
+                    },
+                    paginateFromField() {
+                        if (this.pageField <= Number.parseInt("{{ maxLength }}")) {
+                            var url = '/search-videos/page/' + this.pageField
+                            var form = document.createElement('form')
+                            form.innerHTML = `{% csrf_token %}`
+                            form.setAttribute('method', "POST")
+                            form.setAttribute('action', url)
+                            form.setAttribute('name', 'searched')
+                            
+                            const searched = document.createElement('input')
+                            searched.setAttribute('type', 'hidden')
+                            searched.setAttribute('name', 'searched')
+                            searched.setAttribute('value', '{{ searched }}')
+                            form.appendChild(searched)
+
+                            document.body.append(form)
+                            form.submit();
+                        } else {
+                            window.alert("There are only {{ maxLength }} pages!")
+                        }
+                    }
+                }
             })
 
             const app = new Vue({

@@ -34,7 +34,7 @@ def channels(request, page=1):
         return HttpResponseNotFound('<h1>Page not found</h1>')
     return render(request, 'channels.html', data)
 
-def search_videos_result(request):
+def search_videos_result(request, page=1):
     searched = request.POST['searched']
     
     keywords = searched.split(' ')
@@ -42,17 +42,23 @@ def search_videos_result(request):
     for keyword in keywords:
         videoQuery = Q(videoQuery | Q(title__icontains=keyword))
         videoQuery = Q(videoQuery | Q(description__icontains=keyword))
-        
-    videos = Video.objects.filter(videoQuery).order_by('-datePublished')
+
+    totalVideos = Video.objects.filter(videoQuery).order_by('-datePublished')
+
+    videosPerPage = 20
+    offset = (page - 1) * videosPerPage
+    maxLength = ceil(totalVideos.count() / videosPerPage)
+    videos = totalVideos[offset : offset + videosPerPage]
 
     data = {
         'searched': searched,
         'videos': videos,
+        'page': page,
+        'maxLength': maxLength,
     }
-
     return render(request, 'search-result-videos.html', data)
 
-def search_channels_result(request):
+def search_channels_result(request, page=1):
     searched = request.POST['searched']
 
     keywords = searched.split(' ')
@@ -61,11 +67,18 @@ def search_channels_result(request):
         channelQuery = Q(channelQuery | Q(name__icontains=keyword))
         channelQuery = Q(channelQuery | Q(description__icontains=keyword))
 
-    channels = Channel.objects.filter(channelQuery)
+    totalChannels = Channel.objects.filter(channelQuery)
+
+    channelsPerPage = 18
+    offset = (page - 1) * channelsPerPage
+    maxLength = ceil(totalChannels.count() / channelsPerPage)
+    channels = totalChannels[offset : offset + channelsPerPage]
 
     data = {
         'searched': searched,
         'channels': channels,
+        'page': page,
+        'maxLength': maxLength,
     }
 
     return render(request, 'search-result-channels.html', data)

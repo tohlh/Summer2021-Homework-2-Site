@@ -38,28 +38,30 @@
                         {% endfor %}
                     </v-row>
                 </div>
-                <v-row>
-                    <v-col cols="12" md="10">
-                        <v-pagination
-                            v-model="page"
-                            :length="{{ maxLength }}"
-                            :total-visible="14"
-                            @input="paginate"
-                        ></v-pagination>
-                    </v-col>
-                    <v-col cols="6" md="2">
-                        <v-input>
-                            <v-text-field
-                                v-model="pageField"
-                                label="Jump to"
-                                outlined
-                                dense
-                                type="number"
-                                @keyup.enter="paginateFromField"
-                            ></v-text-field>
-                        </v-input>
-                    </v-col>
-                </v-row>
+                <div>
+                    <v-row>
+                        <v-col cols="12" md="10">
+                            <v-pagination
+                                v-model="page"
+                                :length="{{ maxLength }}"
+                                :total-visible="14"
+                                @input="paginate"
+                            ></v-pagination>
+                        </v-col>
+                        <v-col cols="6" md="2">
+                            <v-input>
+                                <v-text-field
+                                    v-model="pageField"
+                                    label="Jump to"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @keyup.enter="paginateFromField"
+                                ></v-text-field>
+                            </v-input>
+                        </v-col>
+                    </v-row>
+                </div>
             </div>
         </template>
 
