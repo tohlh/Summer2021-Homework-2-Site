@@ -102,7 +102,7 @@ def video_details(request, id):
 
 def channel_details(request, id):
     channel = Channel.objects.get(id=id)
-    videos = Video.objects.filter(channelID=channel.id)
+    videos = Video.objects.filter(channelID=channel.id).order_by('-interactionCount')
 
     data = {
         'channel': channel,
