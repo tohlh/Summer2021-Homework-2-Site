@@ -129,7 +129,7 @@
                         <v-card class="rounded-xl">
                             <v-card-title>Comments</v-card-title>
                             <v-divider></v-divider>
-                            {% if not videos.comments %}
+                            {% if video.comments %}
                             {% for comment in video.comments %}
                             <v-card-text>
                                 {{ comment | linebreaksbr }}
