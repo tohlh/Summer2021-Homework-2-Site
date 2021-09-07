@@ -130,15 +130,15 @@
                     <v-col>
                         <v-card class="rounded-lg">
                             <v-card-title>Comments</v-card-title>
-                            <v-divider></v-divider>
                             {% if video.comments %}
                             {% for comment in video.comments %}
+                            <v-divider></v-divider>
                             <v-card-text>
                                 {{ comment | linebreaksbr }}
                             </v-card-text>
-                            <v-divider></v-divider>
                             {% endfor %}
                             {% else %}
+                            <v-divider></v-divider>
                             <v-card-text>
                                 No comment
                             </v-card-text>
