@@ -35,35 +35,47 @@ const Toolbar = Vue.component('toolbar', {
     `
     <v-toolbar flat>
         <v-spacer></v-spacer>
-        <v-btn depressed color="white" href="/">Videos</v-btn>
-        <v-btn depressed color="white" href="/channels">Channels</v-btn>
-        <v-form v-if="searchtype == 'video'" method="POST" action="/search-videos">
+        <v-btn class="mx-3" depressed color="white" href="/">Videos</v-btn>
+        <v-btn class="mr-3" depressed color="white" href="/channels">Channels</v-btn>
+        <v-form method="POST" :action=" '/' + searchOption">
             <slot name="token"></slot>
+            <v-row>
             <v-text-field 
-                class="mx-3"
+                class="mt-4 mx-3"
                 name="searched"
                 style="width:200px"
                 hide-details
-                label="Search for videos"
+                label="Search for..."
                 prepend-icon="mdi-magnify"
                 single-line
+            ></v-text-field>
+            <v-radio-group
+                class="mt-5 mx-2"
+                v-model=searchOption
+                align="center"
+                row
             >
-            </v-text-field>
+            <v-radio
+                label="Video"
+                value="search-videos"
+            ></v-radio>
+            <v-radio
+                label="Channel"
+                value="search-channels"
+            ></v-radio>
+            </v-radio-group>
+            <v-btn
+                class="mt-5 mr-5"
+                small
+                depressed
+                type="submit"
+            >Search</v-btn>
+            </v-row>
         </v-form>
-        <v-form v-if="searchtype == 'channel'" method="POST" action="/search-channels">
-            <slot name="token"></slot>
-            <v-text-field 
-                class="mx-3"
-                name="searched"
-                style="width:200px"
-                hide-details
-                label="Search for channels"
-                prepend-icon="mdi-magnify"
-                single-line
-            >
-            </v-text-field>
-        </v-form>
-    </v-toolbar>
-    `,
-    props: ['searchtype']
+    </v-toolbar>`,
+    data() {
+        return {
+            searchOption: "search-videos"
+        }
+    }
 })
