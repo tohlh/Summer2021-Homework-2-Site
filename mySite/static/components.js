@@ -1,13 +1,13 @@
 const VideoCard = Vue.component('video-card', {
     template:
     `
-        <div>
-            <v-card class="rounded-xl" height="300px" elevation="2" :href="'../../video/' + id">
-                <v-img height="200px" :src="thumbnail"></v-img>
-                <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
-                <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
-            </v-card>
-        </div>
+    <div>
+        <v-card class="rounded-xl" height="300px" elevation="2" :href="'../../video/' + id">
+            <v-img height="200px" :src="thumbnail"></v-img>
+            <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
+            <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
+        </v-card>
+    </div>
     `,
     delimiters: ['[[', ']]'],
     props: ['id', 'thumbnail', 'title', 'date'],
@@ -16,15 +16,15 @@ const VideoCard = Vue.component('video-card', {
 const ChannelCard = Vue.component('channel-card', {
     template:
     `
-        <div>
-            <v-card class="rounded-xl" height="280px" elevation="2" :href="'../../channel/' + id">
-                <v-img max-height="180px" :src="profilepic"></v-img>
-                <v-card-title class="col-11 text-truncate">[[ name ]]</v-card-title>
-                <v-card-text v-if="subscribercount != ''"> 
-                    [[ subscribercount ]] subscribers 
-                </v-card-text>
-            </v-card>
-        </div>    
+    <div>
+        <v-card class="rounded-xl" height="280px" elevation="2" :href="'../../channel/' + id">
+            <v-img max-height="180px" :src="profilepic"></v-img>
+            <v-card-title class="col-11 text-truncate">[[ name ]]</v-card-title>
+            <v-card-text v-if="subscribercount != ''"> 
+                [[ subscribercount ]] subscribers 
+            </v-card-text>
+        </v-card>
+    </div>    
     `,
     delimiters: ['[[', ']]'],
     props: ['id', 'profilepic', 'name', 'subscribercount'],
