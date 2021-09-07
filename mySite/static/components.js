@@ -2,7 +2,7 @@ const VideoCard = Vue.component('video-card', {
     template:
     `
     <div>
-        <v-card class="rounded-xl" height="300px" elevation="2" :href="'../../video/' + id">
+        <v-card class="rounded-lg" height="300px" elevation="2" :href="'../../video/' + id">
             <v-img height="200px" :src="thumbnail"></v-img>
             <v-card-title class="col-11 text-truncate">[[ title ]]</v-card-title>
             <v-card-text> <v-icon> mdi-calendar </v-icon> [[ date ]] </v-card-text>
@@ -17,8 +17,8 @@ const ChannelCard = Vue.component('channel-card', {
     template:
     `
     <div>
-        <v-card class="rounded-xl" height="280px" elevation="2" :href="'../../channel/' + id">
-            <v-img max-height="180px" :src="profilepic"></v-img>
+        <v-card class="rounded-lg" max-height="280px" elevation="2" :href="'../../channel/' + id">
+            <v-img height="180px" :src="profilepic"></v-img>
             <v-card-title class="col-11 text-truncate">[[ name ]]</v-card-title>
             <v-card-text v-if="subscribercount != ''"> 
                 [[ subscribercount ]] subscribers 
@@ -33,10 +33,10 @@ const ChannelCard = Vue.component('channel-card', {
 const Toolbar = Vue.component('toolbar', {
     template:
     `
-    <v-toolbar flat>
+    <v-toolbar flat id="toolbar">
         <v-spacer></v-spacer>
-        <v-btn class="mx-3" depressed color="white" href="/">Videos</v-btn>
-        <v-btn class="mr-3" depressed color="white" href="/channels">Channels</v-btn>
+        <v-btn class="mx-3" depressed color="#000000" href="/">Videos</v-btn>
+        <v-btn class="mr-3" depressed color="#000000" href="/channels">Channels</v-btn>
         <v-form method="POST" :action=" '/' + searchOption">
             <slot name="token"></slot>
             <v-row>
@@ -47,10 +47,18 @@ const Toolbar = Vue.component('toolbar', {
                 hide-details
                 label="Search for..."
                 prepend-icon="mdi-magnify"
+                outlined
+                dense
                 single-line
             ></v-text-field>
+            <v-btn
+                class="mt-6 mr-5"
+                small
+                depressed
+                type="submit"
+            >Search</v-btn>
             <v-radio-group
-                class="mt-5 mx-2"
+                class="mt-6 mx-2"
                 v-model=searchOption
                 align="center"
                 row
@@ -64,12 +72,6 @@ const Toolbar = Vue.component('toolbar', {
                 value="search-channels"
             ></v-radio>
             </v-radio-group>
-            <v-btn
-                class="mt-5 mr-5"
-                small
-                depressed
-                type="submit"
-            >Search</v-btn>
             </v-row>
         </v-form>
     </v-toolbar>`,
@@ -79,3 +81,16 @@ const Toolbar = Vue.component('toolbar', {
         }
     }
 })
+
+const theme = {
+    theme: {
+        dark: true,
+        themes: {
+            dark: {
+                primary: "#E040FB",
+                secondary: "#673ab7",
+                accent: "#E040FB",
+            },
+        },
+    }
+}

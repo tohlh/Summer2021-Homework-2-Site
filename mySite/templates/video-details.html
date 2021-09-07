@@ -5,6 +5,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <link href="{% static 'styles.css' %}" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     </head>
     <body>
@@ -101,7 +102,7 @@
                 <v-row>
                     <v-col cols="12" sm="6" md="8">
                         <iframe
-                            class="rounded-xl mt-5"
+                            class="rounded-lg mt-5"
                             src="https://www.youtube.com/embed/{{ video.id }}"
                             height="380px"
                             width="100%"
@@ -115,7 +116,7 @@
                 </v-row>
                 <v-row>
                     <v-col cols="12">
-                        <v-card class="rounded-xl">
+                        <v-card class="rounded-lg">
                             <v-card-title>Description</v-card-title>
                             <v-divider></v-divider>
                             <v-card-text>
@@ -126,7 +127,7 @@
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-card class="rounded-xl">
+                        <v-card class="rounded-lg">
                             <v-card-title>Comments</v-card-title>
                             <v-divider></v-divider>
                             {% if video.comments %}
@@ -161,7 +162,7 @@
             })
 
             const app = new Vue({
-                vuetify: new Vuetify(),
+                vuetify: new Vuetify(theme),
             }).$mount('#app');
         </script>
     </body>
