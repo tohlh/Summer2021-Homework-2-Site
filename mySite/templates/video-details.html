@@ -123,7 +123,11 @@
                             <v-card-title>Description</v-card-title>
                             <v-divider></v-divider>
                             <v-card-text>
+                                {% if video.description %}
                                 {{ video.description | linebreaksbr }}
+                                {% else %}
+                                No description
+                                {% endif %}
                             </v-card-text>
                         </v-card>
                     </v-col>
