@@ -44,31 +44,39 @@ def search_videos_result(request, page=1):
         return redirect('/')
 
     searched = request.POST['searched']
-    
-    keywords = searched.split(' ')
-    videoQuery = Q()
-    for keyword in keywords:
-        videoQuery = Q(videoQuery | Q(title__icontains=keyword))
-        videoQuery = Q(videoQuery | Q(description__icontains=keyword))
 
-    ticks = timeit.default_timer()
-    totalVideos = Video.objects.filter(videoQuery).order_by('-datePublished')
-    timeUsed = timeit.default_timer()  - ticks
+    if searched != '':
+        videoQuery = Q(title__icontains=searched)
+        videoQuery = Q(videoQuery | Q(description__icontains=searched))
+        ticks = timeit.default_timer()
+        totalVideos = Video.objects.filter(videoQuery).order_by('-datePublished')
+        timeUsed = timeit.default_timer()  - ticks
 
-    videosPerPage = 20
-    offset = (page - 1) * videosPerPage
-    maxLength = ceil(totalVideos.count() / videosPerPage)
-    videos = totalVideos[offset : offset + videosPerPage]
+        videosPerPage = 20
+        offset = (page - 1) * videosPerPage
+        maxLength = ceil(totalVideos.count() / videosPerPage)
+        videos = totalVideos[offset : offset + videosPerPage]
 
-    data = {
-        'searched': searched,
-        'videos': videos,
-        'page': page,
-        'maxLength': maxLength,
-        'totalVideos': totalVideos.count(),
-        'timeUsed': round(timeUsed, 5),
-    }
-    return render(request, 'search-result-videos.html', data)
+        data = {
+            'searched': searched,
+            'videos': videos,
+            'page': page,
+            'maxLength': maxLength,
+            'totalVideos': totalVideos.count(),
+            'timeUsed': round(timeUsed, 5),
+        }
+        return render(request, 'search-result-videos.html', data)
+
+    else:
+        data = {
+            'searched': searched,
+            'videos': None,
+            'page': 0,
+            'maxLength': 0,
+            'totalVideos': 0,
+            'timeUsed': 0,
+        }
+        return render(request, 'search-result-videos.html', data)
 
 def search_channels_result(request, page=1):
     if request.method != 'POST':
@@ -76,31 +84,40 @@ def search_channels_result(request, page=1):
 
     searched = request.POST['searched']
 
-    keywords = searched.split(' ')
-    channelQuery = Q()
-    for keyword in keywords:
-        channelQuery = Q(channelQuery | Q(name__icontains=keyword))
-        channelQuery = Q(channelQuery | Q(description__icontains=keyword))
+    if searched != '':
+        channelQuery = Q(name__icontains=searched)
+        channelQuery = Q(channelQuery | Q(description__icontains=searched))
 
-    ticks = timeit.default_timer()
-    totalChannels = Channel.objects.filter(channelQuery)
-    timeUsed = timeit.default_timer() - ticks
+        ticks = timeit.default_timer()
+        totalChannels = Channel.objects.filter(channelQuery)
+        timeUsed = timeit.default_timer() - ticks
 
-    channelsPerPage = 18
-    offset = (page - 1) * channelsPerPage
-    maxLength = ceil(totalChannels.count() / channelsPerPage)
-    channels = totalChannels[offset : offset + channelsPerPage]
+        channelsPerPage = 18
+        offset = (page - 1) * channelsPerPage
+        maxLength = ceil(totalChannels.count() / channelsPerPage)
+        channels = totalChannels[offset : offset + channelsPerPage]
 
-    data = {
-        'searched': searched,
-        'channels': channels,
-        'page': page,
-        'maxLength': maxLength,
-        'totalChannels': totalChannels.count(),
-        'timeUsed': round(timeUsed, 5),
-    }
+        data = {
+            'searched': searched,
+            'channels': channels,
+            'page': page,
+            'maxLength': maxLength,
+            'totalChannels': totalChannels.count(),
+            'timeUsed': round(timeUsed, 5),
+        }
 
-    return render(request, 'search-result-channels.html', data)
+        return render(request, 'search-result-channels.html', data)
+    else:
+        data = {
+            'searched': searched,
+            'channels': None,
+            'page': 0,
+            'maxLength': 0,
+            'totalChannels': 0,
+            'timeUsed': 0,
+        }
+
+        return render(request, 'search-result-channels.html', data)
 
 def video_details(request, id):
     try:
