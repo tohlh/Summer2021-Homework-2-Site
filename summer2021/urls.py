@@ -18,6 +18,11 @@ from django.urls import path
 
 from mySite import views as mySite_views
 
+handler404 = 'mySite.views.handleError404'
+handler403 = 'mySite.views.handleError403'
+handler400 = 'mySite.views.handleError400'
+handler500 = 'mySite.views.handleError500'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mySite_views.index),

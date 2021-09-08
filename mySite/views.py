@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, Http404
 from django.db.models import Q
 
 from math import ceil
@@ -8,30 +8,34 @@ from .models import Video
 # Create your views here.
 def index(request, page=1):
     videosPerPage = 20
+    maxLength = ceil(Video.objects.count() / videosPerPage)
+    if (page > maxLength):
+        return render(request, 'error.html')
+
     offset = (page - 1) * videosPerPage
     videos = Video.objects.all().order_by('-interactionCount')[offset:offset + videosPerPage]
-    maxLength = ceil(Video.objects.count() / videosPerPage)
     data = {
         'videos': videos,
         'page': int(page),
         'maxLength': maxLength,
     }
-    if (page > maxLength):
-        return HttpResponseNotFound('<h1>Page not found</h1>')
+
     return render(request, 'videos.html', data)
 
 def channels(request, page=1):
     channelsPerPage = 18
+    maxLength = ceil(Channel.objects.count() / channelsPerPage)
+    if (page > maxLength):
+        return render(request, 'error.html')
+    
     offset = (page - 1) * channelsPerPage
     channels = Channel.objects.all().order_by('-totalViews')[offset:offset + channelsPerPage]
-    maxLength = ceil(Channel.objects.count() / channelsPerPage)
     data = {
         'channels': channels,
         'page': int(page),
         'maxLength': maxLength,
     }
-    if (page > maxLength):
-        return HttpResponseNotFound('<h1>Page not found</h1>')
+
     return render(request, 'channels.html', data)
 
 def search_videos_result(request, page=1):
@@ -90,23 +94,43 @@ def search_channels_result(request, page=1):
     return render(request, 'search-result-channels.html', data)
 
 def video_details(request, id):
-    video = Video.objects.get(id = id)
+    try:
+        video = Video.objects.get(id = id)
+    except:
+        return render(request, 'error.html')
+
     channel = Channel.objects.get(id = video.channelID)
 
     data = {
         'video': video,
         'channel': channel,
     }
-
+    
     return render(request, 'video-details.html', data)
 
 def channel_details(request, id):
-    channel = Channel.objects.get(id=id)
-    videos = Video.objects.filter(channelID=channel.id).order_by('-interactionCount')
+    try:
+        channel = Channel.objects.get(id=id)
+    except:
+        return render(request, 'error.html')
+
+    videos = Video.objects.filter(channelID=channel.id).order_by('-interactionCount')\
 
     data = {
         'channel': channel,
         'videos': videos,
     }
-
+    
     return render(request, 'channel-details.html', data)
+
+def handleError404(request, exception):
+    return render('error.html', status=404)
+
+def handleError403(request, exception):
+    return render('error.html', status=403)
+
+def handleError400(request, exception):
+    return render('error.html', status=400)
+
+def handleError500(request):
+    return render('error.html', status=500)
