@@ -28,7 +28,8 @@
             <div>
                 <div>
                     <h1>You searched for "{{ searched }}" </h1>
-                    {% if channels %}
+                    <p>{{ totalChannels }} result(s) in {{ timeUsed }} seconds.</p>
+                    {% if totalChannels > 0 %}
                     <div>
                         <h2 class="mt-5">Channels</h2>
                         <v-row class="my-5">
