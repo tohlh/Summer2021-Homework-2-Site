@@ -17,7 +17,6 @@ const Toolbar = Vue.component('toolbar', {
                 outlined
                 maxlength="50"
                 hint="Max 50 characters"
-                :rules="rules"
                 dense
                 single-line
             ></v-text-field>
@@ -49,7 +48,6 @@ const Toolbar = Vue.component('toolbar', {
     data() {
         return {
             searchOption: "search-videos",
-            rules: [v => v.length <= 50 || 'Max 50 characters'],
         }
     }
 })
