@@ -131,7 +131,10 @@ def video_details(request, id):
     try:
         video = Video.objects.get(id = id)
     except:
-        return render(request, 'error.html')
+        data = {
+            'error': 'Whoops! This page does not exist!'
+        }      
+        return render(request, 'error.html', data, status=404)
 
     channel = Channel.objects.get(id = video.channelID)
 
@@ -146,9 +149,12 @@ def channel_details(request, id):
     try:
         channel = Channel.objects.get(id=id)
     except:
-        return render(request, 'error.html')
+        data = {
+            'error': 'Whoops! This page does not exist!'
+        }      
+        return render(request, 'error.html', data, status=404)
 
-    videos = Video.objects.filter(channelID=channel.id).order_by('-interactionCount')\
+    videos = Video.objects.filter(channelID=channel.id).order_by('-interactionCount')
 
     data = {
         'channel': channel,
