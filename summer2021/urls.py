@@ -26,13 +26,13 @@ handler500 = 'mySite.views.handleError500'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mySite_views.index),
-    path('page/<int:page>/', mySite_views.index),
+    path('page<int:page>/', mySite_views.index),
     path('channels/', mySite_views.channels),
-    path('channel/page/<int:page>', mySite_views.channels),
+    path('channel/page<int:page>', mySite_views.channels),
     path('video/<str:id>', mySite_views.video_details),
     path('channel/<str:id>', mySite_views.channel_details),
     path('search-videos', mySite_views.search_videos_result),
-    path('search-videos/page/<int:page>', mySite_views.search_videos_result),
+    path('search-videos/page<int:page>', mySite_views.search_videos_result),
     path('search-channels', mySite_views.search_channels_result),
-    path('search-channels/page/<int:page>', mySite_views.search_channels_result),
+    path('search-channels/page<int:page>', mySite_views.search_channels_result),
 ]

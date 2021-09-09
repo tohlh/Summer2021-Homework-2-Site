@@ -94,7 +94,7 @@
                 },
                 methods: {
                     paginate() {
-                        var url = '/search-videos/page/' + this.page
+                        var url = '/search-videos/page' + this.page
                         var form = document.createElement('form')
                         form.innerHTML = `{% csrf_token %}`
                         form.setAttribute('method', "POST")
@@ -112,7 +112,7 @@
                     },
                     paginateFromField() {
                         if (this.pageField <= Number.parseInt("{{ maxLength }}")) {
-                            var url = '/search-videos/page/' + this.pageField
+                            var url = '/search-videos/page' + this.pageField
                             var form = document.createElement('form')
                             form.innerHTML = `{% csrf_token %}`
                             form.setAttribute('method', "POST")

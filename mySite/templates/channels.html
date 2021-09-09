@@ -84,11 +84,11 @@
                 },
                 methods: {
                     paginate() {
-                        window.location.href = '/channel/page/' + this.page
+                        window.location.href = '/channel/page' + this.page
                     },
                     paginateFromField() {
                         if (this.pageField <= Number.parseInt("{{ maxLength }}")) {
-                            window.location.href = '/channel/page/' + this.pageField
+                            window.location.href = '/channel/page' + this.pageField
                         } else {
                             window.alert("There are only {{ maxLength }} pages!")
                         }
