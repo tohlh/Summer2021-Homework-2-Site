@@ -11,7 +11,10 @@ def index(request, page=1):
     videosPerPage = 20
     maxLength = ceil(Video.objects.count() / videosPerPage)
     if (page > maxLength):
-        return render(request, 'error.html')
+        data = {
+            'error': 'Whoops! This page does not exist!'
+        }      
+        return render(request, 'error.html', data, status=404)
 
     offset = (page - 1) * videosPerPage
     videos = Video.objects.all().order_by('-interactionCount')[offset:offset + videosPerPage]
@@ -27,7 +30,10 @@ def channels(request, page=1):
     channelsPerPage = 18
     maxLength = ceil(Channel.objects.count() / channelsPerPage)
     if (page > maxLength):
-        return render(request, 'error.html')
+        data = {
+            'error': 'Whoops! This page does not exist!'
+        }      
+        return render(request, 'error.html', data, status=404)
     
     offset = (page - 1) * channelsPerPage
     channels = Channel.objects.all().order_by('-totalViews')[offset:offset + channelsPerPage]
@@ -150,13 +156,29 @@ def channel_details(request, id):
     return render(request, 'channel-details.html', data)
 
 def handleError404(request, exception):
-    return render('error.html', status=404)
+    data = {
+        'error': 'Whoops! This page does not exist!'
+    }
+
+    return render(request, 'error.html', data, status=404)
 
 def handleError403(request, exception):
-    return render('error.html', status=403)
+    data = {
+        'error': 'Forbidden!'
+    }
+
+    return render(request, 'error.html', data, status=403)
 
 def handleError400(request, exception):
-    return render('error.html', status=400)
+    data = {
+        'error': 'Please try again!'
+    }
+
+    return render(request, 'error.html', status=400)
 
 def handleError500(request):
-    return render('error.html', status=500)
+    data = {
+        'error': 'Internal server error!'
+    }
+
+    return render(request, 'error.html', status=500)
