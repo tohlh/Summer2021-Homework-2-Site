@@ -22,6 +22,7 @@ def index(request, page=1):
         'videos': videos,
         'page': int(page),
         'maxLength': maxLength,
+        'totalVideos': Video.objects.count()
     }
 
     return render(request, 'videos.html', data)
@@ -41,6 +42,7 @@ def channels(request, page=1):
         'channels': channels,
         'page': int(page),
         'maxLength': maxLength,
+        'totalChannels': Channel.objects.count()
     }
 
     return render(request, 'channels.html', data)

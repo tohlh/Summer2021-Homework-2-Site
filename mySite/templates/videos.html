@@ -27,6 +27,7 @@
         <template id="videos-template">
             <div>
                 <h1>Trending Videos</h1>
+                <p> Showing {{ videos.count }} video(s). {{ totalVideos }} videos in total. </p>
                 <div class="my-5">
                     <v-row>
                         {% for video in videos %}

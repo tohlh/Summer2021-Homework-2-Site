@@ -28,6 +28,7 @@
             <div>
                 <div>
                     <h1>Trending Channels</h1>
+                    <p>Showing {{ channels.count }} channel(s). {{ totalChannels }} channels in total.</p>
                     <v-row class="my-5">
                         {% for channel in channels %}
                         <v-col cols="6" sm="4" md="2">
